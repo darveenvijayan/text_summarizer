@@ -12,9 +12,6 @@ def load_model():
     return summarizer
 
 
-summarizer = pipeline("summarization", model="facebook/bart-large-cnn")
-
-
 # Main app engine
 if __name__ == "__main__":
     # display title and description
@@ -22,7 +19,7 @@ if __name__ == "__main__":
     st.write("Get summaries of your text - please wait 5-8 minutes as the model loads.")
 
     #load model
-    ASM = load_model()
+    summarizer = load_model()
 
     # display topic input slot
     text = st.text_input("Input Text", "")
@@ -33,7 +30,7 @@ if __name__ == "__main__":
     if text:
         # load wikipedia summary of topic
 
-#         summary = ASM.summarize(text)
+#         summary = summarizer.summarize(text)
         summary = summarizer(text, max_length=130, min_length=30, do_sample=False)['summary_text']
 
         # display article summary in paragraph
