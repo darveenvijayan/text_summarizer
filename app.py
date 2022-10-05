@@ -1,5 +1,4 @@
 import streamlit as st
-# from model import Abstractive_Summarization_Model
 from transformers import pipeline
 
 
@@ -7,32 +6,31 @@ from transformers import pipeline
 # @st.cache
 def load_model():
     summarizer = pipeline("summarization", model="facebook/bart-large-cnn")
-#     summarizer = Abstractive_Summarization_Model()
-
     return summarizer
+
+
 
 
 # Main app engine
 if __name__ == "__main__":
     # display title and description
     st.title("Text Summarizer")
-    st.write("Get summaries of your text - please wait 5-8 minutes as the model loads.")
+
+    st.write("Get AI generated summaries of text! - please wait a couple of seconds for the model to load.")
+    st.write("Meanwhile checkout my github page -> https://github.com/darveenvijayan")
 
     #load model
     summarizer = load_model()
 
     # display topic input slot
-    text = st.text_input("Input Text", "")
+    text = st.text_input("Paste a paragraph of text in the text box below", "")
 
     # display article paragraph
     article_paragraph = st.empty()
 
     if text:
-        # load wikipedia summary of topic
-
-#         summary = summarizer.summarize(text)
-        summary = summarizer(text, max_length=130, min_length=30, do_sample=False)['summary_text']
+        # summarize
+        summary = summarizer(text, max_length=130, min_length=30, do_sample=False)
 
         # display article summary in paragraph
-        article_paragraph.markdown(summary)
-
+        article_paragraph.markdown(summary[0]['summary_text'])
