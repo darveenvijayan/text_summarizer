@@ -1,5 +1,5 @@
 import streamlit as st
-from model import Abstractive_Summarization_Model
+# from model import Abstractive_Summarization_Model
 from transformers import pipeline
 
 
