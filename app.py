@@ -1,11 +1,19 @@
 import streamlit as st
 from model import Abstractive_Summarization_Model
+from transformers import pipeline
 
 
 # initialize model object
 # @st.cache
 def load_model():
-    return Abstractive_Summarization_Model()
+    summarizer = pipeline("summarization", model="facebook/bart-large-cnn")
+#     summarizer = Abstractive_Summarization_Model()
+
+    return summarizer
+
+
+summarizer = pipeline("summarization", model="facebook/bart-large-cnn")
+
 
 # Main app engine
 if __name__ == "__main__":
@@ -25,7 +33,8 @@ if __name__ == "__main__":
     if text:
         # load wikipedia summary of topic
 
-        summary = ASM.summarize(text)
+#         summary = ASM.summarize(text)
+        summary = summarizer(text, max_length=130, min_length=30, do_sample=False)['summary_text']
 
         # display article summary in paragraph
         article_paragraph.markdown(summary)
